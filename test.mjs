@@ -227,4 +227,68 @@ import {strict as assert} from 'assert'
   console.log(chalk.black.bgYellowBright(` ${name} version is ${version} `))
 }
 
+// @ejdaly - adding some more tests...
+//
+{
+  {
+    console.log(chalk.blue(`\nRunning zx, from zx`));
+    await $`zx --version`
+  }
+  
+  {
+    console.log(chalk.blue(`\nRunning node, from zx`));
+    await $`node --version`
+  }
+
+  // $.import() depends on "experimental-vm-modules"
+  // Skip these tests if not enabled...
+  //
+  const { SourceTextModule } = await import("vm");
+  if(typeof SourceTextModule !== "undefined") {
+    { // Dynamic Import
+      console.log(chalk.blue(`\nImporting lodash from cdn.skypack.dev`));
+      await $`rm ~/.cache/zx/fetch/*`;
+      $.import.verbose = true;
+      const { random, VERSION } = await $.import("lodash");
+      $.import.verbose = false;
+      console.log(`Lodash (baseUrl: ${$.import.baseUrl}): ${VERSION}`);
+      
+      const { begoo } = await $.import("begoo@v2");
+      console.log(begoo(`Lucky number ${random(0, 100)}!! 😸`));
+    }
+    
+    {
+      console.log(chalk.blue(`\nImporting lodash from esm.run`));
+      $.import.baseUrl = "https://esm.run/" 
+      $.import.verbose = true;
+      const { default: { VERSION } } = await $.import("lodash");
+      $.import.verbose = false;
+      console.log(`Lodash (baseUrl: ${$.import.baseUrl}): ${VERSION}`);
+    }
+    
+    {
+      console.log(chalk.blue(`\nImporting lodash from esm.sh`));
+      $.import.map = {
+        lodash: "https://esm.sh/lodash@^3"
+      };
+      $.import.verbose = true;
+      const { default: { VERSION } } = await $.import("lodash");
+      $.import.verbose = false;
+      console.log(`Lodash (${$.import.map.lodash}): ${VERSION}`);
+    }
+    
+    {
+      console.log(chalk.blue(`\nImporting lodash from esm.sh (using local cache)`));
+      $.import.baseUrl = "https://esm.sh/" 
+      $.import.map = {
+        lodash: "^3"
+      };
+      $.import.verbose = true;
+      const { default: { VERSION } } = await $.import("lodash");
+      $.import.verbose = false;
+      console.log(`Lodash (baseUrl: ${$.import.baseUrl}, import.map.lodash: ${$.import.map.lodash}): ${VERSION}`);
+    }
+  }
+}
+
 console.log(chalk.greenBright(' 🍺 Success!'))

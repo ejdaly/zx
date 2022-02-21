@@ -1,0 +1,12 @@
+{
+  "pkg": {
+    "scripts": [
+      "build/package.json"
+    ],
+    "targets": [
+      "linux-x64", "linux-arm64",
+      "macos-x64", "macos-arm64",
+      "win-x64"
+    ]
+  }
+}

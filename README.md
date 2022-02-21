@@ -1,3 +1,37 @@
+# (fork notes)
+
+The differences between this fork, and the main repo / upstream (https://github.com/google/zx), are:
+* [standalone build](docs/standalone.md)
+* [dynamic import](docs/dynamic-import.md)
+* [repl](docs/repl.md)
+
+&nbsp;
+
+Code differences of note:
+* Addition of /lib modules:
+  * [lib/dynamicImport.mjs](lib/dynamicImport.mjs)
+  * [lib/fetchCode.mjs](lib/fetchCode.mjs)
+  * [lib/repl.mjs](lib/repl.mjs)
+  * [lib/tsCompile.mjs](lib/tsCompile.mjs)
+* [zx.mjs](zx.mjs):
+  * Importing the additional /lib modules (to facilitate $.import(), repl)
+  * Typescript compilation is done programatically (using tsCompile.mjs, as opposed to using "tsc")
+  * Wrapped the "main" part of zx.mjs in an async-iife (just to allow rollup to bundle this file...)
+  * Including the node version, along with zx version (since this is important to standalone build)
+* [standalone/scripts/build.mjs](standalone/scripts/build.mjs)
+  * To build the standalone binary...
+  * Some code changes, that are specific to the standalone build, are included here as rollup plugins
+
+&nbsp;
+
+The general approach has been to only modify the upstream source in ways that won't impact the main use case (invoking via Node). i.e. "Standalone-specific" changes should be part of the [standalone/scripts/build.mjs](standalone/scripts/build.mjs). (An exception is that by adding the REPL, the behaviour of calling "zx" without arguments, is now different to the upstream.)
+
+&nbsp;
+
+_(Below here is the same as the main repo)_
+
+---
+
 # 🐚 zx
 
 ```js
