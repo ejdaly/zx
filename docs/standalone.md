@@ -11,7 +11,8 @@ There are downloadable standalone binaries available from the Releases. The node
 Just download the binary into the $PATH, e.g. 
 
 ```bash
-$ sudo curl -o /usr/local/bin/zx 
+$ sudo curl -L -o /usr/local/bin/zx https://github.com/ejdaly/zx/releases/download/4.3.0+1/zx-4.3.0+1-linux-x64
+$ sudo chmod +x /usr/local/bin/zx
 ```
 
 ## Usage
