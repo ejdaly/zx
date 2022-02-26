@@ -39,5 +39,5 @@ $ node zx.mjs standalone/scripts/build.mjs --targets node16-linux-arm64,node16-w
 ```
 
 See also:
-* [standalone/build.mjs](standalone/build.mjs)
-* [standalone/pkg.json](standalone/pkg.json)
+* [standalone/scripts/build.mjs](/standalone/scripts/build.mjs)
+* [standalone/pkg.json](/standalone/pkg.json)
