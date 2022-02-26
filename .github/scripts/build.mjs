@@ -13,7 +13,7 @@ await fs.ensureDir(outputDir)
 {
   let outputFile = 'bundle.cjs'
   console.log('>', outputFile)
-  let {stdout: bundle} = await $`rollup --format cjs --plugin commonjs,node-resolve ${indexFile}`
+  let {stdout: bundle} = await $`rollup --format cjs --plugin commonjs,node-resolve,json ${indexFile}`
   bundle = bundle
     .replace(/node:(\w+)/g, '$1')
   await fs.writeFile(path.join(outputDir, outputFile), bundle)
